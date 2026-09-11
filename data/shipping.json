@@ -1,0 +1,21 @@
+{
+  "zones": [
+    {"pincode_prefix": "560", "city": "Bangalore",  "state": "Karnataka",     "standard_days": 3, "express_days": 1, "carrier": "BlueDart",   "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "400", "city": "Mumbai",     "state": "Maharashtra",    "standard_days": 2, "express_days": 1, "carrier": "DTDC",       "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "110", "city": "New Delhi",  "state": "Delhi",          "standard_days": 2, "express_days": 1, "carrier": "BlueDart",   "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "600", "city": "Chennai",    "state": "Tamil Nadu",     "standard_days": 3, "express_days": 1, "carrier": "Delhivery", "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "700", "city": "Kolkata",    "state": "West Bengal",    "standard_days": 4, "express_days": 2, "carrier": "DTDC",       "standard_cost": 49, "express_cost": 199},
+    {"pincode_prefix": "500", "city": "Hyderabad",  "state": "Telangana",      "standard_days": 3, "express_days": 1, "carrier": "BlueDart",   "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "380", "city": "Ahmedabad",  "state": "Gujarat",        "standard_days": 3, "express_days": 2, "carrier": "Delhivery", "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "411", "city": "Pune",       "state": "Maharashtra",    "standard_days": 2, "express_days": 1, "carrier": "BlueDart",   "standard_cost": 0,  "express_cost": 149},
+    {"pincode_prefix": "302", "city": "Jaipur",     "state": "Rajasthan",      "standard_days": 4, "express_days": 2, "carrier": "DTDC",       "standard_cost": 49, "express_cost": 199},
+    {"pincode_prefix": "226", "city": "Lucknow",    "state": "Uttar Pradesh",  "standard_days": 4, "express_days": 2, "carrier": "Delhivery", "standard_cost": 49, "express_cost": 199}
+  ],
+  "default": {
+    "city": "your location", "state": "India",
+    "standard_days": 7, "express_days": 3,
+    "carrier": "India Post",
+    "standard_cost": 99, "express_cost": 249
+  },
+  "free_shipping_threshold": 1999
+}

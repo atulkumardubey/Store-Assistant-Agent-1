@@ -1,0 +1,16 @@
+{
+  "bulk_discounts": [
+    {"min_quantity": 2, "max_quantity": 4,  "discount_percent": 10},
+    {"min_quantity": 5, "max_quantity": 9,  "discount_percent": 15},
+    {"min_quantity": 10,"max_quantity": null,"discount_percent": 20}
+  ],
+  "category_discounts": [
+    {"category": "jeans",  "discount_percent": 5},
+    {"category": "tshirt", "discount_percent": 8}
+  ],
+  "customer_discounts": {
+    "premium": 5
+  },
+  "free_shipping_threshold": 1999,
+  "currency": "INR"
+}

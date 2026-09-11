@@ -1,0 +1,24 @@
+{
+  "products": [
+    {"id": "SHIRT-BLU-S",  "name": "Blue Shirt",  "category": "shirt",  "color": "blue",  "size": "S",  "stock": 8,  "unit_price": 1199},
+    {"id": "SHIRT-BLU-M",  "name": "Blue Shirt",  "category": "shirt",  "color": "blue",  "size": "M",  "stock": 15, "unit_price": 1199},
+    {"id": "SHIRT-BLU-L",  "name": "Blue Shirt",  "category": "shirt",  "color": "blue",  "size": "L",  "stock": 0,  "unit_price": 1199},
+    {"id": "SHIRT-BLU-XL", "name": "Blue Shirt",  "category": "shirt",  "color": "blue",  "size": "XL", "stock": 3,  "unit_price": 1199},
+    {"id": "SHIRT-RED-S",  "name": "Red Shirt",   "category": "shirt",  "color": "red",   "size": "S",  "stock": 5,  "unit_price": 1099},
+    {"id": "SHIRT-RED-M",  "name": "Red Shirt",   "category": "shirt",  "color": "red",   "size": "M",  "stock": 12, "unit_price": 1099},
+    {"id": "SHIRT-RED-L",  "name": "Red Shirt",   "category": "shirt",  "color": "red",   "size": "L",  "stock": 7,  "unit_price": 1099},
+    {"id": "SHIRT-WHT-M",  "name": "White Shirt", "category": "shirt",  "color": "white", "size": "M",  "stock": 20, "unit_price": 999},
+    {"id": "SHIRT-WHT-L",  "name": "White Shirt", "category": "shirt",  "color": "white", "size": "L",  "stock": 10, "unit_price": 999},
+    {"id": "SHIRT-BLK-M",  "name": "Black Shirt", "category": "shirt",  "color": "black", "size": "M",  "stock": 0,  "unit_price": 1299},
+    {"id": "SHIRT-BLK-L",  "name": "Black Shirt", "category": "shirt",  "color": "black", "size": "L",  "stock": 6,  "unit_price": 1299},
+    {"id": "JEANS-BLU-30", "name": "Blue Jeans",  "category": "jeans",  "color": "blue",  "size": "30", "stock": 10, "unit_price": 2499},
+    {"id": "JEANS-BLU-32", "name": "Blue Jeans",  "category": "jeans",  "color": "blue",  "size": "32", "stock": 8,  "unit_price": 2499},
+    {"id": "JEANS-BLU-34", "name": "Blue Jeans",  "category": "jeans",  "color": "blue",  "size": "34", "stock": 0,  "unit_price": 2499},
+    {"id": "JEANS-BLK-30", "name": "Black Jeans", "category": "jeans",  "color": "black", "size": "30", "stock": 5,  "unit_price": 2799},
+    {"id": "JEANS-BLK-32", "name": "Black Jeans", "category": "jeans",  "color": "black", "size": "32", "stock": 3,  "unit_price": 2799},
+    {"id": "TSHIRT-WHT-M", "name": "White T-Shirt","category": "tshirt", "color": "white", "size": "M",  "stock": 25, "unit_price": 699},
+    {"id": "TSHIRT-WHT-L", "name": "White T-Shirt","category": "tshirt", "color": "white", "size": "L",  "stock": 18, "unit_price": 699},
+    {"id": "TSHIRT-BLK-M", "name": "Black T-Shirt","category": "tshirt", "color": "black", "size": "M",  "stock": 0,  "unit_price": 799},
+    {"id": "TSHIRT-GRY-M", "name": "Gray T-Shirt", "category": "tshirt", "color": "gray",  "size": "M",  "stock": 15, "unit_price": 699}
+  ]
+}
