@@ -1,161 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Store Assistant Agent</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/style.css?v=4"/>
 </head>
 <body>
-  <canvas id="particles"></canvas>
+<canvas id="particles"></canvas>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
 
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
+<div class="app">
 
-  <div class="app">
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="header-icon">🛍️</div>
+    <div class="header-text">
+      <h1 class="header-title">Store Assistant Agent</h1>
+      <p class="header-sub">Nobody tells it the steps — it reasons, calls tools, and decides on its own.</p>
+    </div>
+    <div class="header-badge" id="header-badge">
+      <span class="badge-dot"></span>
+      <span id="status-label">Ready</span>
+    </div>
+    <button class="btn-proof-header" onclick="openProofModal()">
+      ▶ Run All 15 Tests
+    </button>
+  </header>
 
-    <!-- HEADER -->
-    <header class="header">
-      <div class="header-icon">🛍️</div>
-      <div class="header-text">
-        <h1 class="header-title">Store Assistant Agent</h1>
-        <p class="header-sub">Nobody tells it the steps — it reasons, calls tools, and decides on its own.</p>
-      </div>
-      <div class="header-badge">
-        <span class="badge-dot"></span>
-        <span id="status-label">Ready</span>
-      </div>
-    </header>
-
-    <!-- QUERY INPUT -->
-    <section class="query-section">
-      <div class="input-card">
-        <div class="input-wrapper">
-          <span class="input-icon">💬</span>
-          <input
-            id="query-input"
-            type="text"
-            placeholder="e.g. I need 2 blue shirts, size M, delivered to 560001"
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <button id="send-btn" class="send-btn" title="Send">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
+  <!-- ── PROOF MODAL ── -->
+  <div class="modal-overlay" id="proof-modal" onclick="closeProofOnBackdrop(event)">
+    <div class="modal-box">
+      <div class="modal-hdr">
+        <div class="modal-hdr-left">
+          <span class="modal-num">15</span>
+          <div>
+            <h2 class="modal-title">Request Proof</h2>
+            <p class="modal-sub">Verifies correct tool selection and task completion across 15 diverse queries</p>
+          </div>
         </div>
-        <div class="examples">
-          <span class="examples-label">Try:</span>
-          <button class="example-chip" data-q="2 blue shirts, size M, delivered to 560001">2 blue shirts · size M · 560001</button>
-          <button class="example-chip" data-q="Black jeans size 32, ship to 400001">Black jeans 32 · 400001</button>
-          <button class="example-chip" data-q="5 white t-shirts size L, deliver to 110001">5 white T-shirts · 110001</button>
-          <button class="example-chip" data-q="Do you have blue shirt XL available? Pincode 700001">Blue shirt XL · 700001</button>
+        <div class="modal-hdr-right">
+          <button class="btn-run" id="modal-run-btn" onclick="runModalBatchTest()">▶ Run All 15 Tests</button>
+          <button class="modal-close-btn" onclick="closeProofModal()" title="Close">✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="modal-idle" class="batch-idle">
+          <span>Click <strong>Run All 15 Tests</strong> to validate the full tool chain</span>
+        </div>
+        <div id="modal-loading" class="batch-loading" style="display:none">
+          <div class="loading-dots"><span></span><span></span><span></span></div>
+          <span>Running 15 tests…</span>
+        </div>
+        <div id="modal-results" style="display:none">
+          <div class="batch-summary" id="modal-summary"></div>
+          <div class="batch-table-wrap">
+            <table class="batch-table">
+              <thead>
+                <tr>
+                  <th>#</th><th>Query</th>
+                  <th>check_stock</th><th>price_order</th><th>delivery_eta</th>
+                  <th>Note</th><th>Result</th>
+                </tr>
+              </thead>
+              <tbody id="modal-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUERY INPUT ── -->
+  <section class="query-section">
+    <div class="input-card">
+      <div class="input-wrapper">
+        <span class="input-icon">💬</span>
+        <input id="query-input" type="text" autocomplete="off" spellcheck="false"
+               placeholder="e.g. I need 2 blue shirts, size M, delivered to 560001"/>
+        <button id="send-btn" class="send-btn" title="Send">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="examples">
+        <span class="examples-label">Try:</span>
+        <button class="example-chip" data-q="2 blue shirts, size M, delivered to 560001">2 blue shirts · M · 560001</button>
+        <button class="example-chip" data-q="Black jeans size 32, ship to 400001">Black jeans 32 · 400001</button>
+        <button class="example-chip" data-q="5 white tshirts size M, deliver to 110001">5 white T-shirts · 110001</button>
+        <button class="example-chip" data-q="Do you have blue shirt XL? Pincode 700001">Blue shirt XL · 700001</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TRACE + RESULTS ── -->
+  <main class="main-content">
+    <section class="panel trace-panel">
+      <div class="panel-header">
+        <span class="panel-icon">⚡</span>
+        <h2 class="panel-title">Agent Trace</h2>
+        <span class="panel-sub">reason → act → observe</span>
+        <button id="clear-btn" class="clear-btn">✕ Clear</button>
+      </div>
+      <div class="trace-log" id="trace-log">
+        <div class="trace-empty" id="trace-empty">
+          <div class="empty-icon">🤖</div>
+          <p>Agent standing by.<br/>Send a query to watch it reason and act.</p>
         </div>
       </div>
     </section>
 
-    <!-- MAIN CONTENT: trace + results -->
-    <main class="main-content" id="main-content">
-
-      <!-- TRACE LOG -->
-      <section class="panel trace-panel">
-        <div class="panel-header">
-          <span class="panel-icon">⚡</span>
-          <h2 class="panel-title">Agent Trace</h2>
-          <span class="panel-sub">reason → act → observe</span>
-          <button id="clear-btn" class="clear-btn" title="Clear">✕ Clear</button>
-        </div>
-        <div class="trace-log" id="trace-log">
-          <div class="trace-empty" id="trace-empty">
-            <div class="empty-icon">🤖</div>
-            <p>Agent is standing by.<br/>Send a query to watch it reason and act.</p>
+    <aside class="panel results-panel">
+      <div class="panel-header">
+        <span class="panel-icon">📊</span>
+        <h2 class="panel-title">Results</h2>
+        <span class="panel-sub">live output</span>
+      </div>
+      <div class="results-empty" id="results-empty">
+        <div class="empty-icon">📦</div>
+        <p>Results will appear here<br/>as the agent works.</p>
+      </div>
+      <div class="result-cards" id="result-cards" style="display:none">
+        <div class="result-card" id="card-stock" style="display:none">
+          <div class="card-header">
+            <span class="card-icon" id="stock-icon">📦</span>
+            <span class="card-label">Stock</span>
+            <span class="card-badge" id="stock-badge"></span>
+          </div>
+          <div class="card-body">
+            <div class="card-main"   id="stock-main">—</div>
+            <div class="card-detail" id="stock-detail"></div>
+            <div class="card-alts"   id="stock-alts"  style="display:none"></div>
           </div>
         </div>
-      </section>
-
-      <!-- RESULTS -->
-      <aside class="panel results-panel" id="results-panel">
-        <div class="panel-header">
-          <span class="panel-icon">📊</span>
-          <h2 class="panel-title">Results</h2>
-          <span class="panel-sub">live output</span>
-        </div>
-
-        <div class="results-empty" id="results-empty">
-          <div class="empty-icon">📦</div>
-          <p>Results will appear here<br/>as the agent works.</p>
-        </div>
-
-        <div class="result-cards" id="result-cards" style="display:none">
-          <!-- Stock card -->
-          <div class="result-card" id="card-stock" style="display:none">
-            <div class="card-header">
-              <span class="card-icon" id="stock-icon">📦</span>
-              <span class="card-label">Stock</span>
-              <span class="card-badge" id="stock-badge"></span>
-            </div>
-            <div class="card-body">
-              <div class="card-main" id="stock-main">—</div>
-              <div class="card-detail" id="stock-detail"></div>
-            </div>
+        <div class="result-card" id="card-price" style="display:none">
+          <div class="card-header">
+            <span class="card-icon">💰</span>
+            <span class="card-label">Pricing</span>
+            <span class="card-badge success" id="price-badge"></span>
           </div>
-
-          <!-- Price card -->
-          <div class="result-card" id="card-price" style="display:none">
-            <div class="card-header">
-              <span class="card-icon">💰</span>
-              <span class="card-label">Pricing</span>
-              <span class="card-badge success" id="price-badge"></span>
-            </div>
-            <div class="card-body">
-              <div class="card-main" id="price-main">—</div>
-              <div class="card-detail" id="price-detail"></div>
-            </div>
-          </div>
-
-          <!-- Delivery card -->
-          <div class="result-card" id="card-delivery" style="display:none">
-            <div class="card-header">
-              <span class="card-icon">🚚</span>
-              <span class="card-label">Delivery</span>
-              <span class="card-badge" id="delivery-badge"></span>
-            </div>
-            <div class="card-body">
-              <div class="card-main" id="delivery-main">—</div>
-              <div class="card-detail" id="delivery-detail"></div>
-            </div>
-          </div>
-
-          <!-- Answer card -->
-          <div class="result-card answer-card" id="card-answer" style="display:none">
-            <div class="card-header">
-              <span class="card-icon">✨</span>
-              <span class="card-label">Agent Response</span>
-            </div>
-            <div class="card-body">
-              <div class="card-answer-text" id="answer-text"></div>
-            </div>
+          <div class="card-body">
+            <div class="card-main"   id="price-main">—</div>
+            <div class="card-detail" id="price-detail"></div>
           </div>
         </div>
-      </aside>
+        <div class="result-card" id="card-delivery" style="display:none">
+          <div class="card-header">
+            <span class="card-icon">🚚</span>
+            <span class="card-label">Delivery</span>
+            <span class="card-badge" id="delivery-badge"></span>
+          </div>
+          <div class="card-body">
+            <div class="card-main"   id="delivery-main">—</div>
+            <div class="card-detail" id="delivery-detail"></div>
+          </div>
+        </div>
+        <div class="result-card answer-card" id="card-answer" style="display:none">
+          <div class="card-header">
+            <span class="card-icon">✨</span>
+            <span class="card-label">Agent Response</span>
+          </div>
+          <div class="card-body">
+            <div class="card-answer-text" id="answer-text"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
 
-    </main>
+  <!-- ── 5 DEMO SCENARIOS ── -->
+  <section class="demos-section">
+    <div class="section-header">
+      <div class="section-header-left">
+        <span class="section-num">5</span>
+        <div>
+          <h2 class="section-title">Demo Scenarios</h2>
+          <p class="section-sub">Click any card to run it live through the agent — each shows a different reasoning path</p>
+        </div>
+      </div>
+    </div>
+    <div class="scenario-grid" id="scenario-grid">
+      <!-- Populated by JS from /api/demo-scenarios -->
+      <div class="scenario-loading">Loading scenarios…</div>
+    </div>
+  </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-      <span>Built with</span>
-      <span class="footer-brand">Claude Opus 5</span>
-      <span>· ReAct loop · check_stock · price_order · delivery_eta</span>
-    </footer>
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <span>Powered by</span>
+    <span class="footer-brand">NVIDIA NIM · nemotron-3.5</span>
+    <span>· ReAct loop · check_stock · price_order · delivery_eta</span>
+  </footer>
 
-  </div>
-
-  <script src="/static/app.js"></script>
+</div>
+<script src="/static/app.js?v=4"></script>
 </body>
 </html>
