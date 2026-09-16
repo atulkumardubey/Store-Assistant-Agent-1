@@ -217,11 +217,18 @@ function populateDelivery(data) {
   $('delivery-detail').textContent = `Express: ${exp.date || '—'} · ₹${exp.cost || '—'}  |  City: ${data.city || '—'}`;
 }
 
+function parseMarkdown(text) {
+  return escHtml(text || '')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/\n/g, '<br>');
+}
+
 function populateAnswer(text) {
   showResultCards();
   const card = $('card-answer');
   card.style.display = '';
-  $('answer-text').textContent = text || '';
+  $('answer-text').innerHTML = parseMarkdown(text);
 }
 
 
